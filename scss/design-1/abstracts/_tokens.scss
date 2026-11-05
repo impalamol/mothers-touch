@@ -1,0 +1,42 @@
+// ==========================================================================
+// Design tokens — Mother's Touch Academic School
+// Palette is pulled from the logo (indigo building, sunshine rays) and the
+// campus façade / uniform (coral brick, teal).
+// ==========================================================================
+
+// Brand colours
+$ink:        #14123d;   // deepest navy-indigo (text, dark sections)
+$indigo:     #2b2785;   // logo indigo
+$indigoSoft: #4a45c2;
+$sun:        #ffc928;   // logo sunshine
+$sunDeep:    #f5a300;
+$coral:      #f0603a;   // campus brick
+$teal:       #17b3a6;   // uniform teal
+$leaf:       #3fae5a;
+$whatsapp:   #25d366;
+
+// Neutrals
+$cream:      #fffaf1;
+$paper:      #ffffff;
+$sand:       #f6efe2;
+$mist:       #eef0fb;
+$muted:      #5d5b7a;
+$line:       rgba($ink, .1);
+
+// Typography
+$fontDisplay: "Bricolage Grotesque", system-ui, sans-serif;
+$fontBody:    "Plus Jakarta Sans", system-ui, sans-serif;
+$fontSerif:   "Instrument Serif", Georgia, serif;
+
+// Motion
+$easeOut:    cubic-bezier(.16, 1, .3, 1);
+$easeSpring: cubic-bezier(.34, 1.56, .64, 1);
+
+// Radii
+$radiusSm: .875rem;
+$radiusMd: 1.5rem;
+$radiusLg: 2.25rem;
+$radiusXl: 3rem;
+
+// Header
+$headerH: 5.25rem;

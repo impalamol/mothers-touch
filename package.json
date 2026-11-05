@@ -1,0 +1,18 @@
+{
+  "name": "mothers-touch-school",
+  "version": "1.0.0",
+  "description": "Mother's Touch Academic School website",
+  "scripts": {
+    "build": "sass --load-path=node_modules --quiet-deps --style=compressed --no-source-map scss/design-1/main.scss:assets/css/design-1.css",
+    "build:dev": "sass --load-path=node_modules --quiet-deps scss/design-1/main.scss:assets/css/design-1.css",
+    "watch": "sass --load-path=node_modules --quiet-deps --watch scss/design-1/main.scss:assets/css/design-1.css"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "bootstrap": "6.0.0-alpha.1",
+    "sass": "^1.107.1"
+  },
+  "private": true
+}

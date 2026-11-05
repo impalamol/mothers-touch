@@ -1,0 +1,8 @@
+// Bootstrap 6 — only foundation + layout + helpers + utilities (no components).
+@forward "bootstrap/scss/root";
+@forward "bootstrap/scss/content/reboot";
+@forward "bootstrap/scss/content/lists";
+@forward "bootstrap/scss/content/images";
+@forward "bootstrap/scss/layout";
+@forward "bootstrap/scss/helpers";
+@forward "bootstrap/scss/utilities/api";

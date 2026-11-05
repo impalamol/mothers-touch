@@ -1,0 +1,38 @@
+@use "../abstracts/tokens" as *;
+@use "../abstracts/mixins" as *;
+
+// Scroll reveal states, toggled by IntersectionObserver in main.js.
+// Content is only hidden when JS is running (html.js), so nothing is lost without it.
+@layer custom {
+  .js [data-reveal] {
+    opacity: 0;
+    transition:
+      opacity .9s $easeOut,
+      transform 1.1s $easeOut,
+      clip-path 1.3s $easeOut;
+    transition-delay: var(--delay, 0ms);
+
+    &[data-reveal="up"]    { transform: translateY(2.5rem); }
+    &[data-reveal="left"]  { transform: translateX(-3rem); }
+    &[data-reveal="right"] { transform: translateX(3rem); }
+    &[data-reveal="zoom"]  { transform: scale(.94); }
+    &[data-reveal="clip"]  { opacity: 1; clip-path: inset(100% 0 0 0 round $radiusLg); }
+
+    &.isVisible {
+      opacity: 1;
+      transform: none;
+      &[data-reveal="clip"] { clip-path: inset(0 0 0 0 round $radiusLg); }
+    }
+  }
+
+  @include reducedMotion {
+    .js [data-reveal],
+    [data-split] .wordInner,
+    .lineInner {
+      opacity: 1 !important;
+      transform: none !important;
+      clip-path: none !important;
+      transition: none !important;
+    }
+  }
+}

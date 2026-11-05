@@ -1,0 +1,108 @@
+@use "../abstracts/tokens" as *;
+@use "../abstracts/mixins" as *;
+
+@layer custom {
+  h1, h2, h3, h4, .sectionTitle, .heroTitle {
+    font-family: $fontDisplay;
+    font-weight: 700;
+    letter-spacing: -.03em;
+    line-height: 1.02;
+    color: inherit;
+  }
+
+  .serifAccent {
+    font-family: $fontSerif;
+    font-style: italic;
+    font-weight: 400;
+    letter-spacing: -.01em;
+  }
+
+  .sectionTitle {
+    font-size: clamp(2.25rem, 1.4rem + 3.6vw, 4.5rem);
+    .serifAccent { color: $indigo; }
+  }
+
+  .eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: .5rem;
+    padding: .45rem 1rem;
+    border-radius: 999px;
+    font-size: .78rem;
+    font-weight: 700;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    color: $indigo;
+    background: rgba($indigo, .07);
+    border: 1px solid rgba($indigo, .12);
+
+    &::before {
+      content: "";
+      width: .45rem;
+      height: .45rem;
+      border-radius: 50%;
+      background: $coral;
+    }
+    &:has(svg)::before { display: none; }
+    svg { color: $sun; }
+  }
+  .eyebrowLight {
+    color: #fff;
+    @include glass(.1, 10px);
+    &::before { background: $sun; }
+  }
+
+  .leadText {
+    font-size: clamp(1.1rem, 1rem + .4vw, 1.3rem);
+    line-height: 1.6;
+    color: $ink;
+    font-weight: 500;
+  }
+
+  .bodyText {
+    color: $muted;
+    font-size: 1.02rem;
+  }
+  .bodyTextLight { color: rgba(#fff, .74); }
+
+  .linkArrow {
+    display: inline-flex;
+    align-items: center;
+    gap: .75rem;
+    font-weight: 700;
+    color: $indigo;
+
+    .linkArrowIcon {
+      display: grid;
+      place-items: center;
+      width: 2.5rem;
+      height: 2.5rem;
+      border-radius: 50%;
+      background: $indigo;
+      color: #fff;
+      transition: transform .4s $easeSpring, background .3s;
+    }
+    @include hover {
+      .linkArrowIcon { transform: translateX(.35rem); background: $coral; }
+    }
+  }
+
+  // Split-text word reveal (words are wrapped by main.js)
+  [data-split] {
+    .word {
+      display: inline-block;
+      overflow: clip;
+      vertical-align: top;
+      padding-bottom: .1em;
+      margin-bottom: -.1em;
+    }
+    .wordInner {
+      display: inline-block;
+      transform: translateY(110%) rotate(4deg);
+      transform-origin: 0 100%;
+      transition: transform 1s $easeOut;
+      transition-delay: calc(var(--w, 0) * 45ms);
+    }
+    &.isVisible .wordInner { transform: none; }
+  }
+}

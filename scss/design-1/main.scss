@@ -1,0 +1,33 @@
+// ==========================================================================
+// Mother's Touch Academic School — main stylesheet
+//
+// Bootstrap 6 supplies only the foundation (reboot), the grid and the utility
+// classes. Everything visual is custom camelCase classes, written inside
+// `@layer custom`, which Bootstrap declares *before* `helpers` and `utilities`.
+// So a utility class on an element (e.g. `mb-0`, `d-none`) always wins over
+// the component styles, regardless of selector specificity.
+//
+// Build:  npm run build   |   Watch:  npm run watch
+// ==========================================================================
+
+@use "vendor";
+
+// Base
+@use "base/base";
+@use "base/typography";
+
+// Components
+@use "components/buttons";
+@use "components/reveal";
+@use "components/quickActions";
+
+// Layout
+@use "layout/header";
+@use "layout/footer";
+
+// Sections (homepage)
+@use "sections/hero";
+@use "sections/welcome";
+@use "sections/programmes";
+@use "sections/studentLife";
+@use "sections/campuses";

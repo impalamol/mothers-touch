@@ -1,0 +1,213 @@
+@use "../abstracts/tokens" as *;
+@use "../abstracts/mixins" as *;
+
+@layer custom {
+  // ---- Campuses ----------------------------------------------------------------
+  .campuses { background: $sand; }
+
+  .campusCard {
+    position: relative;
+    overflow: hidden;
+    border-radius: $radiusLg;
+    background: #fff;
+    transition: transform .6s $easeOut, box-shadow .6s;
+
+    @include hover {
+      transform: translateY(-4px);
+      box-shadow: 0 30px 60px -30px rgba($ink, .35);
+    }
+  }
+  .campusMain {
+    display: flex;
+    flex-direction: column;
+    // Let the photo absorb the extra height when the card stretches to match its neighbours
+    .campusMedia {
+      flex: 1 1 auto;
+      min-height: 18rem;
+      aspect-ratio: auto;
+      @include down(lg) { aspect-ratio: 16 / 10; min-height: 0; }
+    }
+  }
+  .campusMedia {
+    position: relative;
+    aspect-ratio: 16 / 10;
+    overflow: hidden;
+
+    img {
+      @include coverImg;
+      scale: 1.15;
+      will-change: transform;
+    }
+    .chip {
+      position: absolute;
+      top: 1.25rem;
+      left: 1.25rem;
+    }
+  }
+  .campusBody { padding: clamp(1.5rem, 3vw, 2.25rem); }
+  .campusTitle {
+    margin-bottom: .6rem;
+    font-size: clamp(1.4rem, 1.15rem + 1vw, 2rem);
+    font-weight: 700;
+  }
+
+  .campusMini {
+    display: flex;
+    gap: 1.25rem;
+    padding: clamp(1.5rem, 3vw, 2rem);
+    .chip { display: inline-flex; }
+  }
+  .campusMiniIcon {
+    display: grid;
+    place-items: center;
+    flex-shrink: 0;
+    width: 3.5rem;
+    height: 3.5rem;
+    border-radius: 1.1rem;
+  }
+  .campusMiniSun  { background: $sun; color: $ink; }
+  .campusMiniTeal { background: $teal; color: #fff; }
+
+  .campusVisit {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.25rem;
+    padding: clamp(1.5rem, 3vw, 2rem);
+    background: linear-gradient(120deg, $indigo, $indigoSoft);
+    color: rgba(#fff, .8);
+  }
+
+  // ---- Gallery: multi-speed parallax columns ----------------------------------
+  .gallery {
+    position: relative;
+    overflow: hidden;
+    padding-block: clamp(4rem, 8vw, 7rem) 0;
+    background: $ink;
+  }
+  // Dark vignette so the title stays legible over the photos
+  .gallery::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
+    background:
+      radial-gradient(ellipse 60% 45% at 50% 50%, rgba($ink, .82), transparent 75%),
+      linear-gradient(180deg, $ink 0%, transparent 18%, transparent 82%, $cream 100%);
+  }
+  .galleryHead {
+    position: absolute;
+    inset: 50% 0 auto;
+    z-index: 2;
+    transform: translateY(-50%);
+    pointer-events: none;
+  }
+  .galleryTitle {
+    margin: 0;
+    font-size: clamp(3.5rem, 1rem + 11vw, 12rem);
+    font-weight: 800;
+    letter-spacing: -.05em;
+    color: #fff;
+    text-shadow: 0 10px 60px rgba($ink, .6);
+    will-change: transform;
+    .serifAccent { color: $sun; }
+  }
+  .galleryGrid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: clamp(.6rem, 1.2vw, 1.25rem);
+    height: clamp(32rem, 80svh, 40rem);
+    padding-inline: clamp(.6rem, 1.2vw, 1.25rem);
+    overflow: hidden;
+    opacity: .9;
+
+    @include up(md) { grid-template-columns: repeat(3, 1fr); height: clamp(34rem, 100vh, 56rem); }
+    @include up(lg) { grid-template-columns: repeat(4, 1fr); height: clamp(34rem, 110vh, 62rem); }
+  }
+  .galleryCol {
+    display: flex;
+    flex-direction: column;
+    gap: clamp(.6rem, 1.2vw, 1.25rem);
+    will-change: transform;
+    // Columns start above the frame (and are longer than it) so parallax never exposes a gap
+    margin-top: -8rem;
+    &:nth-child(even) { margin-top: -14rem; }
+
+    @include up(md) {
+      margin-top: -16rem;
+      &:nth-child(even) { margin-top: -24rem; }
+    }
+
+    img {
+      width: 100%;
+      aspect-ratio: 3 / 4;
+      object-fit: cover;
+      border-radius: $radiusMd;
+      filter: saturate(.85);
+      transition: filter .5s;
+      @include hover { filter: saturate(1.15); }
+    }
+  }
+
+  // ---- Admissions CTA -----------------------------------------------------------
+  .ctaCard {
+    position: relative;
+    overflow: hidden;
+    padding: clamp(2rem, 6vw, 5rem);
+    border-radius: $radiusXl;
+    color: #fff;
+    background:
+      radial-gradient(40rem 30rem at 100% 100%, rgba($coral, .45), transparent 60%),
+      linear-gradient(135deg, $indigo 0%, #1d1a5c 100%);
+    isolation: isolate;
+  }
+  .ctaSun {
+    position: absolute;
+    right: -12rem;
+    top: -12rem;
+    z-index: -1;
+    width: 34rem;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    background: repeating-conic-gradient(from 0deg, rgba($sun, .35) 0deg 3deg, transparent 3deg 12deg);
+    mask: radial-gradient(circle, transparent 20%, #000 22%, transparent 70%);
+    -webkit-mask: radial-gradient(circle, transparent 20%, #000 22%, transparent 70%);
+    animation: spin 80s linear infinite;
+  }
+  .ctaTitle {
+    font-size: clamp(2.4rem, 1.4rem + 4vw, 5rem);
+    font-weight: 800;
+    letter-spacing: -.04em;
+    line-height: 1;
+    .serifAccent { color: $sun; }
+  }
+
+  .step {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem 1.25rem;
+    border-radius: 1.25rem;
+    @include glass(.07, 10px);
+    line-height: 1.3;
+    transition: transform .5s $easeSpring, background .3s;
+
+    strong { display: block; font-size: 1.05rem; }
+    small { color: rgba(#fff, .68); }
+    @include hover { transform: translateX(.5rem); background: rgba(#fff, .14); }
+  }
+  .stepNum {
+    display: grid;
+    place-items: center;
+    flex-shrink: 0;
+    width: 2.75rem;
+    height: 2.75rem;
+    border-radius: 50%;
+    background: $sun;
+    color: $ink;
+    font-family: $fontDisplay;
+    font-weight: 800;
+  }
+}

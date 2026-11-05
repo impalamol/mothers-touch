@@ -1,0 +1,181 @@
+@use "../abstracts/tokens" as *;
+@use "../abstracts/mixins" as *;
+
+@layer custom {
+  // ---- Floating WhatsApp + Call -------------------------------------------
+  .quickActions {
+    position: fixed;
+    right: clamp(1rem, 2vw, 1.75rem);
+    bottom: clamp(1rem, 2vw, 1.75rem);
+    z-index: 900;
+    // Lifted on desktop so it clears the footer's bottom row
+    @include up(lg) { bottom: 5rem; }
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: .85rem;
+
+    transition: opacity .4s, transform .5s $easeOut, visibility .4s;
+
+    // Below lg the mobile dock takes over once it appears
+    @include down(lg) {
+      &.isTucked {
+        opacity: 0;
+        visibility: hidden;
+        transform: translateY(2rem);
+      }
+    }
+  }
+
+  .quickBtn {
+    position: relative;
+    display: grid;
+    place-items: center;
+    width: 3.5rem;
+    height: 3.5rem;
+    border-radius: 50%;
+    color: #fff;
+    box-shadow: 0 14px 30px -10px rgba($ink, .45);
+    transition: transform .45s $easeSpring;
+
+    @include hover {
+      transform: scale(1.08);
+      .quickLabel { opacity: 1; transform: translate(0, -50%); }
+    }
+    &:focus-visible .quickLabel { opacity: 1; transform: translate(0, -50%); }
+  }
+
+  .quickWhatsapp {
+    width: 4rem;
+    height: 4rem;
+    background: $whatsapp;
+
+    // Pulsing rings
+    &::before,
+    &::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      border-radius: 50%;
+      border: 2px solid $whatsapp;
+      animation: quickPulse 2.4s $easeOut infinite;
+      pointer-events: none;
+    }
+    &::after { animation-delay: 1.2s; }
+  }
+  .quickCall {
+    background: $indigo;
+    animation: quickRing 4s ease-in-out infinite;
+  }
+
+  .quickLabel {
+    position: absolute;
+    right: calc(100% + .85rem);
+    top: 50%;
+    padding: .5rem .9rem;
+    border-radius: 999px;
+    background: $ink;
+    color: #fff;
+    font-size: .82rem;
+    font-weight: 700;
+    white-space: nowrap;
+    pointer-events: none;
+    opacity: 0;
+    transform: translate(.5rem, -50%);
+    transition: opacity .3s, transform .4s $easeOut;
+  }
+
+  @keyframes quickPulse {
+    from { transform: scale(1); opacity: .7; }
+    to   { transform: scale(1.7); opacity: 0; }
+  }
+  // Short phone "ring" wiggle every few seconds
+  @keyframes quickRing {
+    0%, 86%, 100% { rotate: 0deg; }
+    88% { rotate: -14deg; }
+    90% { rotate: 12deg; }
+    92% { rotate: -10deg; }
+    94% { rotate: 8deg; }
+    96% { rotate: 0deg; }
+  }
+
+  @include reducedMotion {
+    .quickWhatsapp::before,
+    .quickWhatsapp::after,
+    .quickCall { animation: none; }
+  }
+
+  // ---- Back to top with progress ring -------------------------------------
+  .toTop {
+    position: fixed;
+    left: clamp(1rem, 2vw, 1.75rem);
+    bottom: 5rem;
+    z-index: 900;
+    display: grid;
+    place-items: center;
+    width: 3.25rem;
+    height: 3.25rem;
+    border: 0;
+    border-radius: 50%;
+    background: #fff;
+    color: $ink;
+    box-shadow: 0 10px 30px -10px rgba($ink, .35);
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(1rem);
+    transition: opacity .4s, transform .4s $easeOut, visibility .4s;
+
+    &.isShown { opacity: 1; visibility: visible; transform: none; }
+
+    @include down(lg) { display: none; }
+  }
+  .toTopRing {
+    position: absolute;
+    inset: 0;
+    transform: rotate(-90deg);
+
+    circle {
+      fill: none;
+      stroke: $coral;
+      stroke-width: 2.5;
+      stroke-linecap: round;
+      stroke-dasharray: 138.2;
+      stroke-dashoffset: calc(138.2 * (1 - var(--progress, 0)));
+    }
+  }
+
+  // ---- Mobile dock ---------------------------------------------------------
+  .mobileDock {
+    position: fixed;
+    left: .75rem;
+    right: .75rem;
+    bottom: .75rem;
+    z-index: 950;
+    display: grid;
+    grid-template-columns: 1fr 1.2fr 1fr;
+    gap: .4rem;
+    padding: .4rem;
+    border-radius: 1.4rem;
+    background: rgba($ink, .88);
+    backdrop-filter: blur(16px) saturate(160%);
+    -webkit-backdrop-filter: blur(16px) saturate(160%);
+    box-shadow: 0 20px 40px -15px rgba($ink, .6);
+    transform: translateY(150%);
+    transition: transform .5s $easeOut;
+
+    &.isShown { transform: none; }
+  }
+  .dockItem {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: .2rem;
+    padding: .55rem .25rem;
+    border-radius: 1rem;
+    color: #fff;
+    font-size: .74rem;
+    font-weight: 700;
+  }
+  .dockPrimary { background: $sun; color: $ink; }
+  .dockWa svg { color: $whatsapp; }
+}

@@ -1,0 +1,91 @@
+@use "../abstracts/tokens" as *;
+@use "../abstracts/mixins" as *;
+
+@layer custom {
+  :root {
+    --ink: #{$ink};
+    --indigo: #{$indigo};
+    --sun: #{$sun};
+    --coral: #{$coral};
+    --teal: #{$teal};
+    --cream: #{$cream};
+    --headerH: #{$headerH};
+    --sectionPad: clamp(5rem, 9vw, 9rem);
+    color-scheme: light;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: calc(var(--headerH) + 1rem);
+    @include reducedMotion { scroll-behavior: auto; }
+  }
+
+  body {
+    font-family: $fontBody;
+    font-size: 1rem;
+    line-height: 1.65;
+    color: $ink;
+    background: $cream;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: clip;
+    &.menuOpen { overflow: hidden; }
+  }
+
+  img { max-width: 100%; height: auto; }
+
+  a { color: inherit; text-decoration: none; }
+
+  ::selection { background: $sun; color: $ink; }
+
+  :focus-visible {
+    outline: 3px solid $sun;
+    outline-offset: 3px;
+    border-radius: .375rem;
+  }
+
+  .iconSprite { position: absolute; width: 0; height: 0; overflow: hidden; }
+
+  .skipLink {
+    position: fixed;
+    top: .75rem;
+    left: .75rem;
+    z-index: 2000;
+    padding: .75rem 1.25rem;
+    border-radius: 999px;
+    background: $sun;
+    color: $ink;
+    font-weight: 700;
+    transform: translateY(-200%);
+    transition: transform .3s $easeOut;
+    &:focus { transform: none; }
+  }
+
+  .sectionPad { padding-block: var(--sectionPad); }
+
+  .scrollProgress {
+    position: fixed;
+    inset: 0 0 auto;
+    height: 3px;
+    z-index: 1100;
+    pointer-events: none;
+  }
+  .scrollProgressBar {
+    display: block;
+    height: 100%;
+    background: linear-gradient(90deg, $sun, $coral, $teal);
+    transform-origin: 0 50%;
+    transform: scaleX(var(--progress, 0));
+  }
+
+  // Soft blurred colour blobs
+  .blob {
+    position: absolute;
+    width: clamp(18rem, 40vw, 34rem);
+    aspect-ratio: 1;
+    border-radius: 50%;
+    filter: blur(80px);
+    opacity: .35;
+    pointer-events: none;
+  }
+  .blobTeal { background: $teal; top: 10%; right: -10%; }
+}

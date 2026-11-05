@@ -1,0 +1,208 @@
+@use "../abstracts/tokens" as *;
+@use "../abstracts/mixins" as *;
+
+@layer custom {
+  .hero {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    min-height: max(calc(100svh - var(--topBarH, 0px)), 44rem);
+    overflow: hidden;
+    color: #fff;
+    background: $ink;
+    isolation: isolate;
+  }
+
+  // Parallax photo layer (taller than the hero so it can travel)
+  .heroMedia {
+    position: absolute;
+    inset: -12% 0 -12%;
+    z-index: -3;
+    will-change: transform;
+  }
+  .heroImg {
+    @include coverImg;
+    object-position: 50% 60%;
+    animation: heroZoom 2.4s $easeOut both;
+  }
+  @keyframes heroZoom {
+    from { transform: scale(1.18); filter: saturate(.6); }
+    to   { transform: scale(1.04); filter: none; }
+  }
+
+  .heroShade {
+    position: absolute;
+    inset: 0;
+    z-index: -2;
+    background:
+      linear-gradient(180deg, rgba($ink, .55) 0%, rgba($ink, 0) 30%),
+      linear-gradient(75deg, rgba($ink, .94) 0%, rgba($indigo, .72) 45%, rgba($indigo, .1) 100%),
+      linear-gradient(0deg, rgba($ink, .9) 0%, transparent 45%);
+  }
+
+  // Subtle film grain for texture
+  .heroGrain {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    opacity: .12;
+    mix-blend-mode: overlay;
+    pointer-events: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
+  // Sun-ray motif (from the logo)
+  .heroSun {
+    position: absolute;
+    top: 14%;
+    right: 2%;
+    z-index: -1;
+    width: clamp(14rem, 28vw, 27rem);
+    aspect-ratio: 1;
+    pointer-events: none;
+    will-change: transform;
+
+    @include down(md) { top: 9rem; right: -5rem; width: 12rem; opacity: .35; }
+  }
+  // Solid sun: flat disc + 12 triangular rays (rays rotate slowly)
+  .heroSunSvg {
+    display: block;
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+    color: $sun;
+  }
+  .heroSunRays {
+    transform-origin: 100px 100px;
+    animation: spin 40s linear infinite;
+  }
+  @keyframes spin { to { rotate: 360deg; } }
+
+  .heroContent {
+    padding-top: calc(var(--headerH) + 3rem);
+    padding-bottom: 2rem;
+  }
+
+  .heroTitle {
+    font-size: clamp(3rem, .8rem + 5.6vw, 7.5rem);
+    line-height: .94;
+    letter-spacing: -.045em;
+    font-weight: 800;
+
+    .serifAccent {
+      position: relative;
+      display: inline-block;
+      padding-right: .08em;
+      color: $sun;
+      font-weight: 400;
+      letter-spacing: -.02em;
+    }
+  }
+
+  // Line-by-line headline reveal
+  .lineMask {
+    display: block;
+    overflow: clip;
+    padding-bottom: .06em;
+  }
+  .lineInner {
+    display: inline-block;
+    transform: translateY(105%);
+    transition: transform 1.2s $easeOut;
+
+    .lineMask:nth-child(2) & { transition-delay: .12s; }
+    .isLoaded & { transform: none; }
+  }
+
+  .scribble {
+    position: absolute;
+    left: 0;
+    bottom: -.05em;
+    width: 100%;
+    height: .18em;
+    overflow: visible;
+
+    path {
+      fill: none;
+      stroke: $coral;
+      stroke-width: 6;
+      stroke-linecap: round;
+      stroke-dasharray: 320;
+      stroke-dashoffset: 320;
+      transition: stroke-dashoffset 1.4s $easeOut 1s;
+    }
+    .isLoaded & path { stroke-dashoffset: 0; }
+  }
+
+  .heroLead {
+    max-width: 40rem;
+    font-size: clamp(1.05rem, .95rem + .4vw, 1.25rem);
+    color: rgba(#fff, .82);
+  }
+
+  // ---- Bottom glass strip ------------------------------------------------------
+  .heroFoot { padding-bottom: clamp(1.25rem, 3vw, 2.5rem); }
+
+  .heroStats {
+    gap: .5rem;
+    padding: .5rem;
+    border-radius: $radiusMd;
+    @include glass(.08, 20px);
+  }
+  .heroStat {
+    display: flex;
+    align-items: center;
+    gap: .85rem;
+    flex: 1 1 12rem;
+    padding: .85rem 1.1rem;
+    border-radius: 1.1rem;
+    background: rgba(#fff, .06);
+    line-height: 1.25;
+
+    strong { display: block; font-family: $fontDisplay; font-size: 1.1rem; }
+    small { color: rgba(#fff, .7); font-size: .82rem; }
+  }
+  .heroStatIcon {
+    display: grid;
+    place-items: center;
+    flex-shrink: 0;
+    width: 2.75rem;
+    height: 2.75rem;
+    border-radius: .9rem;
+    background: $sun;
+    color: $ink;
+  }
+
+  .heroScroll {
+    padding-inline: 1.25rem;
+    font-size: .85rem;
+    font-weight: 600;
+    color: rgba(#fff, .8);
+  }
+  .heroScrollMouse {
+    display: flex;
+    justify-content: center;
+    width: 1.5rem;
+    height: 2.4rem;
+    padding-top: .4rem;
+    border: 2px solid rgba(#fff, .6);
+    border-radius: 1rem;
+
+    span {
+      width: 3px;
+      height: .5rem;
+      border-radius: 3px;
+      background: $sun;
+      animation: mouseWheel 1.8s $easeOut infinite;
+    }
+  }
+  @keyframes mouseWheel {
+    0%   { transform: translateY(0); opacity: 1; }
+    100% { transform: translateY(.8rem); opacity: 0; }
+  }
+
+  @include reducedMotion {
+    .heroImg, .heroSunRays { animation: none; }
+  }
+}

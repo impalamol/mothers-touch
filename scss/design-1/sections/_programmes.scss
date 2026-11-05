@@ -1,0 +1,88 @@
+@use "../abstracts/tokens" as *;
+@use "../abstracts/mixins" as *;
+
+@layer custom {
+  .programmes {
+    position: relative;
+    margin-inline: clamp(.5rem, 1.2vw, 1.25rem);
+    border-radius: $radiusXl;
+    background:
+      radial-gradient(60rem 40rem at 90% -10%, rgba($indigoSoft, .55), transparent 60%),
+      radial-gradient(40rem 30rem at -10% 110%, rgba($teal, .25), transparent 60%),
+      $ink;
+    color: #fff;
+
+    .sectionTitle .serifAccent { color: $sun; }
+  }
+
+  // ---- Sticky stacking cards ---------------------------------------------------
+  .stackCards {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    padding-bottom: 2rem;
+  }
+
+  .stackCard {
+    --scale: 1;
+    position: sticky;
+    top: calc(var(--headerH) + 2rem + var(--i) * 1.75rem);
+    min-height: min(34rem, 72vh);
+    overflow: hidden;
+    border-radius: $radiusXl;
+    color: $ink;
+    transform-origin: 50% 0;
+    transform: scale(var(--scale));
+    box-shadow: 0 -20px 50px -30px rgba(#000, .6);
+    will-change: transform;
+
+    @include down(md) {
+      top: calc(var(--headerH) + 1rem + var(--i) * 1rem);
+      min-height: 0;
+    }
+  }
+  .stackCardSun   { background: $sun; }
+  .stackCardTeal  { background: #8fe3d9; }
+  .stackCardCoral { background: #ffb59c; }
+
+  .stackCardBody {
+    padding: clamp(1.75rem, 4vw, 3.5rem);
+  }
+  .stackCardIndex {
+    font-family: $fontDisplay;
+    font-size: .95rem;
+    font-weight: 800;
+    letter-spacing: .1em;
+    margin-bottom: auto;
+    padding-bottom: 2rem;
+    opacity: .6;
+  }
+  .stackCardTitle {
+    margin-bottom: 1rem;
+    font-size: clamp(2.2rem, 1.5rem + 3vw, 4rem);
+    font-weight: 800;
+  }
+  .stackCardText {
+    max-width: 30rem;
+    margin-bottom: 1.5rem;
+    font-size: 1.05rem;
+    color: rgba($ink, .78);
+  }
+
+  .stackCardMedia {
+    position: relative;
+    min-height: 16rem;
+
+    img {
+      position: absolute;
+      inset: 0;
+      @include coverImg;
+      @include up(md) {
+        border-radius: calc(#{$radiusXl} - .75rem);
+        inset: .75rem;
+        width: calc(100% - 1.5rem);
+        height: calc(100% - 1.5rem);
+      }
+    }
+  }
+}
